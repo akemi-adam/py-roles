@@ -67,7 +67,41 @@ class TestRoles(TestCase):
         self.assertEqual(userRole.user_id, self.user.id)
         self.assertEqual(userRole.role_id, role.id)
         
-
+    def test_removing_a_role_from_a_user(self):
+        roleName: str = self.faker.word()
+        
+        role: Role = self.roleHelper.create_role(roleName)
+        self.roleHelper.assign_role(roleName, self.user.id)
+        
+        userRole = self.session.query(UserRole).filter_by(
+            user_id=self.user.id,
+            role_id=role.id
+        ).first()
+        
+        self.assertIsNotNone(userRole)
+        self.assertIsInstance(userRole, UserRole)
+        self.assertEqual(userRole.user_id, self.user.id)
+        self.assertEqual(userRole.role_id, role.id)
+        
+        self.roleHelper.remove_role(roleName, self.user.id)
+        
+        userRole = self.session.query(UserRole).filter_by(
+            user_id=self.user.id,
+            role_id=role.id
+        ).first()
+        
+        self.assertIsNone(userRole)
+        
+    def test_editing_a_role(self):
+        roleName: str = self.faker.word()
+        role: Role = self.roleHelper.create_role(roleName)
+        self.assertIsNotNone(role)
+        self.assertEqual(role.name, roleName)
+        newName: str = self.faker.word()
+        role = self.roleHelper.edit_role(roleName, newName)
+        self.assertIsNotNone(role)
+        self.assertNotEqual(role.name, roleName)
+        self.assertEqual(role.name, newName)
         
         
 if __name__ == '__main__':
