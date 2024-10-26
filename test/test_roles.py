@@ -40,6 +40,12 @@ class TestRoles(TestCase):
         self.session.close()
         self.roleHelper.session.close()
         
+    def test_creation_of_a_role(self):
+        roleName: str = self.faker.word()
+        role: Role = self.roleHelper.create_role(roleName)
+        self.assertIsNotNone(role)
+        self.assertEqual(role.name, roleName)
+    
 
         
         
