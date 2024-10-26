@@ -55,3 +55,13 @@ class RoleHelper:
             print(str(e))
         return role
         
+    def assign_role(self, name: str, user_id: int) -> None:
+        try:
+            role = self.find_by_name(name)
+            stmt: Insert = insert(self.user_role).values(user_id=user_id, role_id=role.id)
+            self.session.execute(stmt)
+            self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            print(str(e))
+
