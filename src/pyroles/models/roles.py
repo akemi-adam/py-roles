@@ -65,3 +65,15 @@ class RoleHelper:
             self.session.rollback()
             print(str(e))
 
+    def remove_role(self, name: str, user_id: int) -> None:
+        role = self.find_by_name(name)
+        user_role = self.session.query(self.user_role).filter_by(user_id=user_id, role_id=role.id).first()
+        try:
+            self.session.delete(user_role)
+            self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            print(str(e))
+        
+        
+    
