@@ -51,6 +51,22 @@ class TestRoles(TestCase):
         role: Role = self.roleHelper.create_role(roleName)
         self.assertIsInstance(role.id, int)
         
+    def test_assign_a_role_for_a_user(self):
+        roleName: str = self.faker.word()
+        
+        role: Role = self.roleHelper.create_role(roleName)
+        self.roleHelper.assign_role(roleName, self.user.id)
+        
+        userRole = self.session.query(UserRole).filter_by(
+            user_id=self.user.id,
+            role_id=role.id
+        ).first()
+        
+        self.assertIsNotNone(userRole)
+        self.assertIsInstance(userRole, UserRole)
+        self.assertEqual(userRole.user_id, self.user.id)
+        self.assertEqual(userRole.role_id, role.id)
+        
 
         
         
