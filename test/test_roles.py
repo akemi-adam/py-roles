@@ -46,6 +46,11 @@ class TestRoles(TestCase):
         self.assertIsNotNone(role)
         self.assertEqual(role.name, roleName)
     
+    def test_integer_id(self):
+        roleName: str = self.faker.word()
+        role: Role = self.roleHelper.create_role(roleName)
+        self.assertIsInstance(role.id, int)
+        
 
         
         
