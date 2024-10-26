@@ -44,3 +44,14 @@ class RoleHelper:
     def find_by_name(self, name: str) -> DefaultRole|None:
         return self.session.query(self.role_model).filter(self.role_model.name == name).first()
     
+    def create_role(self, name: str) -> DefaultRole:
+        role = self.role_model(name=name)
+        self.session.add(role)
+        try:
+            self.session.commit()
+            self.session.refresh(role)
+        except Exception as e:
+            self.session.rollback()
+            print(str(e))
+        return role
+        
