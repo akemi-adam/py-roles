@@ -35,3 +35,9 @@ class UuidUserRole(UuidBase):
     role_id: Mapped[UUID] = mapped_column(String(36), ForeignKey("roles.id"), primary_key=True)
 
 
+class RoleHelper:
+    def __init__(self, session: Session, role_model: Type[DefaultRole]):
+        self.session = session
+        self.user_role = UserRole if role_model == Role else UuidUserRole
+        self.role_model = role_model
+    
