@@ -76,4 +76,13 @@ class RoleHelper:
             print(str(e))
         
         
-    
+    def edit_role(self, name: str, newName: str) -> DefaultRole:
+        role = self.find_by_name(name)
+        role.name = newName
+        try:
+            self.session.commit()
+            self.session.refresh(role)
+        except Exception as e:
+            self.session.rollback()
+            print(str(e))
+        return role
