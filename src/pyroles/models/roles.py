@@ -23,3 +23,15 @@ class UuidRole(UuidModel, DefaultRole):
     pass
 
     
+class UserRole(Base):
+    __tablename__ = "user_role"
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), primary_key=True)
+    role_id: Mapped[int] = mapped_column(Integer, ForeignKey("roles.id"), primary_key=True)
+
+
+class UuidUserRole(UuidBase):
+    __tablename__ = "user_role"
+    user_id: Mapped[UUID] = mapped_column(String(36), ForeignKey("users.id"), primary_key=True)
+    role_id: Mapped[UUID] = mapped_column(String(36), ForeignKey("roles.id"), primary_key=True)
+
+
