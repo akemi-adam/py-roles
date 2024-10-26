@@ -41,3 +41,6 @@ class RoleHelper:
         self.user_role = UserRole if role_model == Role else UuidUserRole
         self.role_model = role_model
     
+    def find_by_name(self, name: str) -> DefaultRole|None:
+        return self.session.query(self.role_model).filter(self.role_model.name == name).first()
+    
